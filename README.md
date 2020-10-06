@@ -13,7 +13,7 @@
 ## Screenshots
 ![Example screenshot](./img/screenshot.png)
 
-##Demo
+## Demo
 Live demo is available here: https://dawid131.github.io/Flashcards/
 
 ## Technologies
