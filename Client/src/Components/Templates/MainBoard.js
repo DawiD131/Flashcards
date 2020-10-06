@@ -46,7 +46,7 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    fetch(`https://flashcards--api.herokuapp.com/get_lessons_with_words`)
+    fetch(`http://localhost:9000/lessons/get_lessons_with_words`)
       .then((response) => {
         if (response.ok) {
           return response;
@@ -82,9 +82,7 @@ class App extends React.Component {
   handleSubmit = (event) => {
     const { lessonSelectValue } = this.state;
     let counter = 0;
-    fetch(
-      `https://flashcards--api.herokuapp.com/get_words/${lessonSelectValue}`
-    )
+    fetch(`http://localhost:9000/words/get_words/${lessonSelectValue}`)
       .then((response) => response.json())
       .then((data) => {
         this.setState({
@@ -126,7 +124,7 @@ class App extends React.Component {
       } = this.state;
       const OldWords = words;
 
-      fetch("https://flashcards--api.herokuapp.com/save_word", {
+      fetch("http://localhost:9000/words/save_word", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -187,7 +185,7 @@ class App extends React.Component {
         lesson: this.state.lessonValue,
       };
 
-      fetch("https://flashcards--api.herokuapp.com/create_new_lesson", {
+      fetch("http://localhost:9000/lessons/create_new_lesson", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -266,8 +264,8 @@ class App extends React.Component {
       isLearned: status,
     };
 
-    fetch("https://flashcards--api.herokuapp.com/update_word_status", {
-      method: "POST",
+    fetch("http://localhost:9000/words/update_word_status", {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
@@ -358,6 +356,7 @@ class App extends React.Component {
       isRepeat,
     };
   };
+
   render() {
     const {
       currentLessonValue,

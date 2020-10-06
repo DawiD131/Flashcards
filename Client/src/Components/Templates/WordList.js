@@ -42,7 +42,7 @@ class WordList extends React.Component {
   };
 
   componentDidMount() {
-    fetch("https://flashcards--api.herokuapp.com/get_lessons_with_words")
+    fetch("http://localhost:9000/lessons/get_lessons_with_words")
       .then((response) => {
         if (response.ok) {
           return response;
@@ -80,8 +80,8 @@ class WordList extends React.Component {
   handleDeleteClick = (lesson, element) => {
     const { data } = this.state;
 
-    fetch("https://flashcards--api.herokuapp.com/delete_word", {
-      method: "POST",
+    fetch("http://localhost:9000/words/delete_word", {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
@@ -107,9 +107,9 @@ class WordList extends React.Component {
   };
 
   handleDeleteLessonClick = (itemToDelete) => {
-    fetch(
-      `https://flashcards--api.herokuapp.com/delete_lesson/${itemToDelete}`
-    ).then((response) => response.json());
+    fetch(`http://localhost:9000/lessons/delete_lesson/${itemToDelete}`, {
+      method: "DELETE",
+    }).then((response) => response.json());
 
     let data = this.state.data;
     data.map((item, id) => {
