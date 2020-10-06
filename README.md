@@ -10,7 +10,7 @@
 * [Contact](#contact)
 
 ## Screenshots
-![Example screenshot](./img/Zrzut ekranu 2020-10-2 o 17.33.07.png)
+![Example screenshot](./img/screenshot.png)
 
 ## Technologies
 * React js - version 16.13.1
