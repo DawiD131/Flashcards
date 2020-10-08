@@ -3,6 +3,7 @@
 
 ## Table of contents
 * [Screenshots](#screenshots)
+* [Demo](#demo)
 * [Technologies](#technologies)
 * [Setup](#setup)
 * [Features](#features)
@@ -11,6 +12,9 @@
 
 ## Screenshots
 ![Example screenshot](./img/screenshot.png)
+
+## Demo
+Live demo is available here: https://dawid131.github.io/Flashcards/
 
 ## Technologies
 * React js - version 16.13.1
