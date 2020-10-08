@@ -28,7 +28,7 @@ const StyledButton = styled.button`
   }
 `;
 
-function Button(props) {
+const Button = (props) => {
   return (
     <StyledButton
       submit={props.submit}
@@ -43,6 +43,6 @@ function Button(props) {
       {props.txt}
     </StyledButton>
   );
-}
+};
 
 export default Button;

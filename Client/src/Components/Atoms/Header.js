@@ -15,12 +15,12 @@ const HeaderBox = styled.div`
   justify-content: center;
 `;
 
-function Header(props) {
+const Header = (props) => {
   return (
     <HeaderBox>
       <StyledText>{props.txt}</StyledText>
     </HeaderBox>
   );
-}
+};
 
 export default Header;

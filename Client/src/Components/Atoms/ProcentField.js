@@ -5,8 +5,8 @@ const StyledText = styled.h3`
   margin-left: 20px;
 `;
 
-function ProcentField(props) {
+const ProcentField = (props) => {
   return <StyledText>{props.txt}</StyledText>;
-}
+};
 
 export default ProcentField;

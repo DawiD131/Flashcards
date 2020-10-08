@@ -3,9 +3,13 @@ import Button from "../Atoms/Button";
 import StyledInput from "../Shared/StyledInput";
 import StyledForm from "../Shared/StyledForm";
 
-function AddLessonForm(props) {
+const AddLessonForm = ({
+  handleLessonSubmit,
+  lessonValue,
+  handleLessonInput,
+}) => {
   return (
-    <StyledForm onSubmit={props.handleLessonSubmit}>
+    <StyledForm onSubmit={handleLessonSubmit}>
       <h2>Dodaj lekcję</h2>
       <label htmlFor="lessonValue">
         Temat:
@@ -14,14 +18,13 @@ function AddLessonForm(props) {
           type="text"
           name="lessonValue"
           placeholder="Wpisz temat lekcji"
-          value={props.LessonValue}
-          onChange={props.handleChange}
+          value={lessonValue}
+          onChange={handleLessonInput}
         />
       </label>
-
       <Button submit type="submit" txt="Dodaj!" />
     </StyledForm>
   );
-}
+};
 
 export default AddLessonForm;

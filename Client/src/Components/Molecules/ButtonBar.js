@@ -12,33 +12,53 @@ const StyledWrapper = styled.div`
   height: 4%;
 `;
 
-function ButtonBar(props) {
+const ButtonBar = ({
+  handleIsLearnedClick,
+  words,
+  handleClick,
+  Showfunc,
+  isWordVisible,
+}) => {
   return (
-    <StyledWrapper>
-      <Button
-        isLearned
-        secondary
-        dangerous
-        function={() => props.handleIsLearnedClick(false)}
-        txt="-"
-      />
-      <Button control secondary function={props.Prevfunc} txt="<" />
-      <Button
-        control
-        secondary
-        function={props.Showfunc}
-        txt={props.isWordVisible ? "HIDE" : "SHOW"}
-      />
-      <Button control secondary function={props.Nextfunc} txt=">" />
-      <Button
-        isLearned
-        secondary
-        good
-        function={() => props.handleIsLearnedClick(true)}
-        txt="+"
-      />
-    </StyledWrapper>
+    <>
+      {words.length > 0 ? (
+        <StyledWrapper>
+          <Button
+            isLearned
+            secondary
+            dangerous
+            function={() => handleIsLearnedClick(false)}
+            txt="-"
+          />
+          <Button
+            control
+            secondary
+            function={() => handleClick("Prev")}
+            txt="<"
+          />
+          <Button
+            control
+            secondary
+            function={Showfunc}
+            txt={isWordVisible ? "HIDE" : "SHOW"}
+          />
+          <Button
+            control
+            secondary
+            function={() => handleClick("Next")}
+            txt=">"
+          />
+          <Button
+            isLearned
+            secondary
+            good
+            function={() => handleIsLearnedClick(true)}
+            txt="+"
+          />
+        </StyledWrapper>
+      ) : null}
+    </>
   );
-}
+};
 
 export default ButtonBar;

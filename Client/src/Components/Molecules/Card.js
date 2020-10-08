@@ -23,22 +23,20 @@ const WordBox = styled.div`
   margin: 2%;
 `;
 
-function Card(props) {
+const Card = ({ words, word, isWordVisible, translation, lessonsSubjects }) => {
   return (
     <>
       <StyledWrapper>
-        {props.show === true ? (
+        {words.length > 0 ? (
           <>
             <WordBox>
-              <WordField word={props.word} />
+              <WordField word={word} />
             </WordBox>
             <WordBox>
-              {props.isWordVisible ? (
-                <WordField word={props.translation} />
-              ) : null}
+              {isWordVisible ? <WordField word={translation} /> : null}
             </WordBox>
           </>
-        ) : props.lessonsSubjects.length > 0 ? (
+        ) : lessonsSubjects.length > 0 ? (
           <WordField word="Brak słówek" />
         ) : (
           <WordField word="Najpierw dodaj lekcję" />
@@ -46,6 +44,6 @@ function Card(props) {
       </StyledWrapper>
     </>
   );
-}
+};
 
 export default Card;

@@ -14,33 +14,48 @@ const BouncyDiv = styled.div`
   justify-content: center;
 `;
 
-function PanelForm(props) {
+const PanelForm = ({
+  isFormPanelVisible,
+  lessonsSubjects,
+  value,
+  handleSubmit,
+  handleLessonSelect,
+  handleLessonSubmit,
+  handleWordInput,
+  handleLessonInput,
+  handleTranslationInput,
+  wordValue,
+  TranslationValue,
+  handleAddWordSubmit,
+  lessonValue,
+}) => {
   return (
-    <BouncyDiv>
-      {props.lessonsSubjects.length > 0 ? (
-        <ChooseLessonForm
-          lessons={props.lessonsSubjects}
-          value={props.value}
-          handleSubmit={props.handleSubmit}
-          handleChange={props.handleChange}
-        />
+    <>
+      {isFormPanelVisible ? (
+        <BouncyDiv>
+          <ChooseLessonForm
+            lessonsSubjects={lessonsSubjects}
+            value={value}
+            handleSubmit={handleSubmit}
+            handleLessonSelect={handleLessonSelect}
+          />
+          <AddWordForm
+            lessonsSubjects={lessonsSubjects}
+            WordValue={wordValue}
+            TranslationValue={TranslationValue}
+            handleAddWordSubmit={handleAddWordSubmit}
+            handleTranslationInput={handleTranslationInput}
+            handleWordInput={handleWordInput}
+          />
+          <AddLessonForm
+            lessonValue={lessonValue}
+            handleLessonSubmit={handleLessonSubmit}
+            handleLessonInput={handleLessonInput}
+          />
+        </BouncyDiv>
       ) : null}
-      {props.lessonsSubjects.length > 0 ? (
-        <AddWordForm
-          WordValue={props.WordValue}
-          TranslationValue={props.TranslationValue}
-          handleAddWordSubmit={props.handleAddWordSubmit}
-          handleChange={props.handleChange}
-        />
-      ) : null}
-
-      <AddLessonForm
-        LessonValue={props.LessonValue}
-        handleLessonSubmit={props.handleLessonSubmit}
-        handleChange={props.handleChange}
-      />
-    </BouncyDiv>
+    </>
   );
-}
+};
 
 export default PanelForm;

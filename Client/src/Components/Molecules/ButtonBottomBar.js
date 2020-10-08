@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../Atoms/Button";
 import ProcentField from "../Atoms/ProcentField";
@@ -36,15 +36,22 @@ const StyledPanel = styled.div`
   background-color: #3098d9;
 `;
 
-function ButtonBottomBar(props) {
+const ButtonBottomBar = ({
+  main,
+  words,
+  lesson,
+  procentValue,
+  handleIsFormPanelVisibleClick,
+  visible,
+}) => {
   return (
     <StyledBox>
-      {props.main ? (
+      {main ? (
         <>
           <StyledPanel>
-            {props.words.length > 0 ? (
+            {words.length > 0 ? (
               <ProcentField
-                txt={`Lekcja: ${props.lesson} została opanowana w ${props.procentValue}%`}
+                txt={`Lekcja: ${lesson} została opanowana w ${procentValue}%`}
               />
             ) : null}
           </StyledPanel>
@@ -55,8 +62,8 @@ function ButtonBottomBar(props) {
             <Button
               secondary
               warning
-              function={props.handleIsFormPanelVisibleClick}
-              txt={props.visible ? "Ukryj panel" : "Pokaz panel"}
+              function={handleIsFormPanelVisibleClick}
+              txt={visible ? "Ukryj panel" : "Pokaz panel"}
             />
           </StyledWrapper>
         </>
@@ -69,6 +76,6 @@ function ButtonBottomBar(props) {
       )}
     </StyledBox>
   );
-}
+};
 
 export default ButtonBottomBar;

@@ -15,30 +15,31 @@ const Select = styled.select`
   border-radius: 4px;
 `;
 
-function ChooseLessonForm(props) {
+const ChooseLessonForm = ({
+  lessonsSubjects,
+  handleSubmit,
+  value,
+  handleLessonSelect,
+}) => {
   return (
     <>
-      <StyledForm onSubmit={props.handleSubmit}>
-        <h2>Lekcja:</h2>
-
-        <Select
-          name="lessonSelectValue"
-          value={props.value}
-          onChange={props.handleChange}
-        >
-          {props.lessons.map((item, index) => {
-            return (
-              <option key={index} value={item}>
-                {item}
-              </option>
-            );
-          })}
-        </Select>
-
-        <Button submit type="submit" txt="Wybierz" />
-      </StyledForm>
+      {lessonsSubjects.length > 0 ? (
+        <StyledForm onSubmit={handleSubmit}>
+          <h2>Lekcja:</h2>
+          <Select value={value} onChange={handleLessonSelect}>
+            {lessonsSubjects.map((item, index) => {
+              return (
+                <option key={index} value={item}>
+                  {item}
+                </option>
+              );
+            })}
+          </Select>
+          <Button submit type="submit" txt="Wybierz" />
+        </StyledForm>
+      ) : null}
     </>
   );
-}
+};
 
 export default ChooseLessonForm;
