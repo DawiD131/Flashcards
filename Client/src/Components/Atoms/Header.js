@@ -4,7 +4,7 @@ import styled from "styled-components";
 const StyledText = styled.h1`
   margin-top: 1%;
   font-size: 50px;
-  font-weight: 300;
+  font-weight: 200;
   color: black;
 `;
 
@@ -13,6 +13,7 @@ const HeaderBox = styled.div`
   display: flex;
   height: 9vh;
   justify-content: center;
+  box-shadow: 0 4px 2px -2px black;
 `;
 
 const Header = (props) => {

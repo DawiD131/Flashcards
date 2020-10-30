@@ -1,16 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "../Atoms/Button";
 import StyledInput from "../Shared/StyledInput";
 import StyledForm from "../Shared/StyledForm";
 
 const ChooseLessonForm = ({
   lessonsSubjects,
-  handleAddWordSubmit,
-  wordValue,
-  handleWordInput,
-  translationValue,
-  handleTranslationInput,
+  currentLessonValue,
+  handleAction,
 }) => {
+  const [wordValue, setWordValue] = useState("");
+  const [translationValue, setTranslationValue] = useState("");
+
+  const handleWordInput = (e) => setWordValue(e.target.value);
+  const handleTranslationInput = (e) => setTranslationValue(e.target.value);
+
+  const handleAddWordSubmit = (event) => {
+    event.preventDefault();
+    fetch("http://localhost:9000/words/save_word", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        lesson: currentLessonValue,
+        word: wordValue,
+        translation: translationValue,
+        isLearned: false,
+      }),
+    });
+
+    handleAction({
+      type: "ADD_WORD",
+      lesson: currentLessonValue,
+      wordToAdd: {
+        word: wordValue,
+        translation: translationValue,
+        isLearned: false,
+      },
+    });
+
+    setTranslationValue("");
+    setWordValue("");
+  };
   return (
     <>
       {lessonsSubjects.length > 0 ? (

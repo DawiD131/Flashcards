@@ -15,9 +15,9 @@ const StyledWrapper = styled.div`
 const ButtonBar = ({
   handleIsLearnedClick,
   words,
-  handleClick,
-  Showfunc,
-  isWordVisible,
+  handleNextOrPrevClick,
+  handleShowTranslationVisibleClick,
+  isTranslationVisible,
 }) => {
   return (
     <>
@@ -27,32 +27,32 @@ const ButtonBar = ({
             isLearned
             secondary
             dangerous
-            function={() => handleIsLearnedClick(false)}
+            function={() => handleIsLearnedClick(false, words)}
             txt="-"
           />
           <Button
             control
             secondary
-            function={() => handleClick("Prev")}
+            function={() => handleNextOrPrevClick("Prev")}
             txt="<"
           />
           <Button
             control
             secondary
-            function={Showfunc}
-            txt={isWordVisible ? "HIDE" : "SHOW"}
+            function={handleShowTranslationVisibleClick}
+            txt={isTranslationVisible ? "HIDE" : "SHOW"}
           />
           <Button
             control
             secondary
-            function={() => handleClick("Next")}
+            function={() => handleNextOrPrevClick("Next")}
             txt=">"
           />
           <Button
             isLearned
             secondary
             good
-            function={() => handleIsLearnedClick(true)}
+            function={() => handleIsLearnedClick(true, words)}
             txt="+"
           />
         </StyledWrapper>

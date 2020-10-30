@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../../style.css";
 import styled from "styled-components";
 import Card from "../Molecules/Card";
 import ButtonBar from "../Molecules/ButtonBar";
-import PanelForm from "../Organisms/PanelForm";
+import KeyboardEventHandler from "react-keyboard-event-handler";
 
 const StyledCardBox = styled.div`
   display: flex;
@@ -14,61 +14,96 @@ const StyledCardBox = styled.div`
 
 const Board = ({
   words,
-  isWordVisible,
-  word,
-  translation,
   lessonsSubjects,
-  isFormPanelVisible,
-  lessonSelectValue,
-  wordValue,
-  translationValue,
-  lessonValue,
-  handleIsLearnedClick,
-  handleClick,
-  Showfunc,
-  handleSubmit,
-  handleWordInput,
-  handleLessonInput,
-  handleLessonSelect,
-  handleTranslationInput,
-  handleAddWordSubmit,
-  handleLessonSubmit,
+  currentLessonValue,
+  handleAction,
 }) => {
+  const [wordNumber, setWordNumber] = useState(0);
+  const [isTranslationVisible, setIsTranslationVisible] = useState(false);
+
+  const handleShowTranslationVisibleClick = () =>
+    setIsTranslationVisible((prevValue) => !prevValue);
+
+  const handleNextOrPrevClick = (NextOrPrev) => {
+    setIsTranslationVisible(false);
+    switch (NextOrPrev) {
+      case "Next":
+        if (wordNumber + 1 === words.length) {
+          setWordNumber(0);
+        } else {
+          setWordNumber((prevValue) => prevValue + 1);
+        }
+        break;
+      case "Prev":
+        if (wordNumber < 1) {
+          setWordNumber(words.length - 1);
+        } else {
+          setWordNumber((prevValue) => prevValue - 1);
+        }
+        break;
+      default:
+        return null;
+    }
+  };
+
+  const handleIsLearnedClick = (status, x) => {
+    fetch("http://localhost:9000/words/update_word_status", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        lesson: currentLessonValue,
+        word: words[wordNumber].word,
+        translation: words[wordNumber].translate,
+        isLearned: status,
+      }),
+    });
+    handleAction({
+      type: "IS_WORD_LEARNED",
+      lesson: currentLessonValue,
+      word: words[wordNumber].word,
+      status,
+    });
+  };
+
+  const handleKeyEvent = (key) => {
+    switch (key) {
+      case "left":
+        handleNextOrPrevClick("Prev");
+        break;
+      case "right":
+        handleNextOrPrevClick("Next");
+        break;
+      case "down":
+        handleShowTranslationVisibleClick();
+        break;
+      default:
+        return null;
+    }
+  };
+
   return (
     <>
+      <KeyboardEventHandler
+        handleKeys={["left", "right", "down"]}
+        onKeyEvent={(key) => handleKeyEvent(key)}
+      />
       <StyledCardBox>
         <Card
-          words={words}
-          isWordVisible={isWordVisible}
-          word={word}
-          translation={translation}
+          isTranslationVisible={isTranslationVisible}
+          word={words.length > 0 ? words[wordNumber].word : null}
+          translation={words.length > 0 ? words[wordNumber].translation : null}
           lessonsSubjects={lessonsSubjects}
         />
         <ButtonBar
           words={words}
-          isWordVisible={isWordVisible}
+          isTranslationVisible={isTranslationVisible}
           handleIsLearnedClick={handleIsLearnedClick}
-          handleClick={handleClick}
-          Showfunc={Showfunc}
+          handleNextOrPrevClick={handleNextOrPrevClick}
+          handleShowTranslationVisibleClick={handleShowTranslationVisibleClick}
         />
       </StyledCardBox>
-      {isFormPanelVisible ? (
-        <PanelForm
-          isFormPanelVisible={isFormPanelVisible}
-          handleWordInput={handleWordInput}
-          handleTranslationInput={handleTranslationInput}
-          handleLessonInput={handleLessonInput}
-          handleLessonSelect={handleLessonSelect}
-          lessonsSubjects={lessonsSubjects}
-          value={lessonSelectValue}
-          handleSubmit={handleSubmit}
-          WordValue={wordValue}
-          TranslationValue={translationValue}
-          handleAddWordSubmit={handleAddWordSubmit}
-          lessonValue={lessonValue}
-          handleLessonSubmit={handleLessonSubmit}
-        />
-      ) : null}
     </>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import "../../style.css";
 import styled from "styled-components";
 import GlobalStyle from "../Shared/GlobalTheme";
@@ -15,23 +15,12 @@ const StyledWrapper = styled.div`
   width: 100%;
 `;
 
-const WordList = () => {
-  const [data, setData] = useState([]);
+const WordList = ({ words, handleAction }) => {
+  const [data, setData] = useState(words);
 
   useEffect(() => {
-    fetch("http://localhost:9000/lessons/get_lessons_with_words")
-      .then((response) => {
-        if (response.ok) {
-          return response;
-        }
-        throw Error(response.status);
-      })
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+    setData(words);
+  }, [words]);
 
   const handleConfirm = (lessonOrWord, itemToDelete, lesson) => {
     switch (lessonOrWord) {
@@ -49,6 +38,8 @@ const WordList = () => {
           handleDeleteClick(lesson, itemToDelete);
         }
         break;
+      default:
+        return null;
     }
   };
 
@@ -82,11 +73,9 @@ const WordList = () => {
       method: "DELETE",
     }).then((response) => response.json());
 
-    data.map((item, id) => {
-      if (item.lesson === itemToDelete) {
-        data.splice(id, 1);
-      }
-      setData([...data]);
+    handleAction({
+      type: "REMOVE",
+      itemToDelete,
     });
   };
 

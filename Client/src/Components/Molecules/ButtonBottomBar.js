@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../Atoms/Button";
-import ProcentField from "../Atoms/ProcentField";
 
 const StyledBox = styled.div`
   display: flex;
@@ -36,25 +35,12 @@ const StyledPanel = styled.div`
   background-color: #3098d9;
 `;
 
-const ButtonBottomBar = ({
-  main,
-  words,
-  lesson,
-  procentValue,
-  handleIsFormPanelVisibleClick,
-  visible,
-}) => {
+const ButtonBottomBar = ({ main, handleIsFormPanelVisibleClick, visible }) => {
   return (
     <StyledBox>
       {main ? (
         <>
-          <StyledPanel>
-            {words.length > 0 ? (
-              <ProcentField
-                txt={`Lekcja: ${lesson} została opanowana w ${procentValue}%`}
-              />
-            ) : null}
-          </StyledPanel>
+          <StyledPanel></StyledPanel>
           <StyledWrapper>
             <Link to="/WordList">
               <Button secondary warning renderAs="button" txt="word list" />

@@ -23,17 +23,17 @@ const WordBox = styled.div`
   margin: 2%;
 `;
 
-const Card = ({ words, word, isWordVisible, translation, lessonsSubjects }) => {
+const Card = ({ word, translation, lessonsSubjects, isTranslationVisible }) => {
   return (
     <>
       <StyledWrapper>
-        {words.length > 0 ? (
+        {word ? (
           <>
             <WordBox>
               <WordField word={word} />
             </WordBox>
             <WordBox>
-              {isWordVisible ? <WordField word={translation} /> : null}
+              {isTranslationVisible ? <WordField word={translation} /> : null}
             </WordBox>
           </>
         ) : lessonsSubjects.length > 0 ? (

@@ -53,9 +53,9 @@ const WordTable = ({ data, handleConfirm }) => {
                   return (
                     <tr key={index}>
                       <Td key={element.word}>
-                        {`${element.word} - ${element.translate}`}{" "}
+                        {`${element.word} - ${element.translation}`}
                         <Button
-                          key={element.translate}
+                          key={element.translation}
                           warning
                           txt="Usuń"
                           function={() =>

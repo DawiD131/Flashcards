@@ -14,9 +14,11 @@ const BouncyDiv = styled.div`
   justify-content: center;
 `;
 
-const PanelForm = ({
+const FormPanel = ({
   isFormPanelVisible,
   lessonsSubjects,
+  handleAction,
+  currentLessonValue,
   value,
   handleSubmit,
   handleLessonSelect,
@@ -24,9 +26,6 @@ const PanelForm = ({
   handleWordInput,
   handleLessonInput,
   handleTranslationInput,
-  wordValue,
-  TranslationValue,
-  handleAddWordSubmit,
   lessonValue,
 }) => {
   return (
@@ -41,9 +40,8 @@ const PanelForm = ({
           />
           <AddWordForm
             lessonsSubjects={lessonsSubjects}
-            WordValue={wordValue}
-            TranslationValue={TranslationValue}
-            handleAddWordSubmit={handleAddWordSubmit}
+            handleAction={handleAction}
+            currentLessonValue={currentLessonValue}
             handleTranslationInput={handleTranslationInput}
             handleWordInput={handleWordInput}
           />
@@ -58,4 +56,4 @@ const PanelForm = ({
   );
 };
 
-export default PanelForm;
+export default FormPanel;
