@@ -5,55 +5,89 @@ import Board from "../../Organisms/Board";
 import FormPanel from "../../Organisms/FormPanel";
 import ButtonBottomBar from "../../Molecules/ButtonBottomBar";
 import GlobalStyle from "../../Shared/GlobalTheme";
+import API_URL from "../../../api";
 import "../../../style.css";
 
 const MainTemplate = ({ data, handleAction }) => {
+  const lessons = data.map((item) => item.lesson);
+
   const [words, setWords] = useState([]);
-  const [currentLessonValue, setCurrentLessonValue] = useState("");
+  const [wordValue, setWordValue] = useState("");
+  const [translationValue, setTranslationValue] = useState("");
   const [lessonsSubjects, setLessonsSubjects] = useState([]);
-  const [lessonSelectValue, setLessonSelectValue] = useState("");
-  const [lessonValue, setLessonValue] = useState("");
+  const [lessonSelectValue, setLessonSelectValue] = useState(lessons[1]);
+  const [lessonInputValue, setLessonInputValue] = useState("");
   const [isFormPanelVisible, setIsFormPanelVisible] = useState(true);
 
   useEffect(() => {
-    console.log(data);
-    const lessons = data.map((item) => item.lesson);
-    if (data.length > 0) {
-      setWords(data[0].words);
-      setCurrentLessonValue(lessons[0]);
-      setLessonSelectValue(lessons[0]);
-    }
+    console.log("rerender");
+
+    console.log(lessons[0]);
+    setWords(data.length > 0 ? data[0].words : []);
+    // setLessonSelectValue(lessons[0]);
     setLessonsSubjects(lessons);
   }, [data]);
 
-  const handleLessonInput = (e) => setLessonValue(e.target.value);
+  const handleWordInput = (e) => setWordValue(e.target.value);
+  const handleTranslationInput = (e) => setTranslationValue(e.target.value);
+  const handleLessonInput = (e) => setLessonInputValue(e.target.value);
   const handleLessonSelect = (e) => setLessonSelectValue(e.target.value);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch(`http://localhost:9000/words/get_words/${lessonSelectValue}`)
+    fetch(`${API_URL}words/get_words/${lessonSelectValue}`)
       .then((response) => response.json())
       .then((data) => {
         setWords(data.words);
+        handleAction({ type: "GET_LESSON" });
       });
-    setCurrentLessonValue(lessonSelectValue);
+    // setLessonSelectValue(lessons[0]);
   };
 
-  const handleLessonSubmit = (event) => {
+  const handleAddLessonSubmit = (event) => {
     event.preventDefault();
-    fetch("http://localhost:9000/lessons/create_new_lesson", {
+    fetch(`${API_URL}lessons/create_new_lesson`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ lesson: lessonValue }),
+      body: JSON.stringify({ lesson: lessonInputValue }),
     });
 
     handleAction({
       type: "ADD",
-      lessonValue,
+      lessonValue: lessonInputValue,
     });
-    setLessonValue("");
+    setLessonInputValue("");
+  };
+
+  const handleAddWordSubmit = (event) => {
+    event.preventDefault();
+    fetch(`${API_URL}words/save_word`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        lesson: lessonSelectValue,
+        word: wordValue,
+        translation: translationValue,
+        isLearned: false,
+      }),
+    });
+
+    handleAction({
+      type: "ADD_WORD",
+      lesson: lessonSelectValue,
+      wordToAdd: {
+        word: wordValue,
+        translation: translationValue,
+        isLearned: false,
+      },
+    });
+
+    setTranslationValue("");
+    setWordValue("");
   };
 
   const handleIsFormPanelVisibleClick = () =>
@@ -67,21 +101,25 @@ const MainTemplate = ({ data, handleAction }) => {
         <Board
           words={words}
           lessonsSubjects={lessonsSubjects}
-          currentLessonValue={currentLessonValue}
+          currentLessonValue={lessonSelectValue}
           handleAction={handleAction}
         />
         {isFormPanelVisible ? (
           <FormPanel
+            handleAddWordSubmit={handleAddWordSubmit}
+            wordValue={wordValue}
+            handleWordInput={handleWordInput}
+            translationValue={translationValue}
+            handleTranslationInput={handleTranslationInput}
             isFormPanelVisible={isFormPanelVisible}
-            handleAction={handleAction}
             handleLessonInput={handleLessonInput}
             handleLessonSelect={handleLessonSelect}
             lessonsSubjects={lessonsSubjects}
-            value={lessonSelectValue}
+            lessonSelectValue={lessonSelectValue}
             handleSubmit={handleSubmit}
-            currentLessonValue={currentLessonValue}
-            lessonValue={lessonValue}
-            handleLessonSubmit={handleLessonSubmit}
+            currentLessonValue={lessonSelectValue}
+            lessonValue={lessonInputValue}
+            handleAddLessonSubmit={handleAddLessonSubmit}
           />
         ) : null}
       </StyledWrapper>

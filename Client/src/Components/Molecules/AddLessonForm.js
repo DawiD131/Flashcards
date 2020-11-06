@@ -4,12 +4,12 @@ import StyledInput from "../Shared/StyledInput";
 import StyledForm from "../Shared/StyledForm";
 
 const AddLessonForm = ({
-  handleLessonSubmit,
-  lessonValue,
+  handleAddLessonSubmit,
+  lessonInputValue,
   handleLessonInput,
 }) => {
   return (
-    <StyledForm onSubmit={handleLessonSubmit}>
+    <StyledForm onSubmit={handleAddLessonSubmit}>
       <h2>Dodaj lekcję</h2>
       <label htmlFor="lessonValue">
         Temat:
@@ -18,7 +18,7 @@ const AddLessonForm = ({
           type="text"
           name="lessonValue"
           placeholder="Wpisz temat lekcji"
-          value={lessonValue}
+          value={lessonInputValue}
           onChange={handleLessonInput}
         />
       </label>

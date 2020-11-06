@@ -5,6 +5,7 @@ import GlobalStyle from "../Shared/GlobalTheme";
 import Header from "../Atoms/Header";
 import ButtonBottomBar from "../Molecules/ButtonBottomBar";
 import WordTable from "../Molecules/WordTable";
+import API_URL from "../../api";
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -44,7 +45,7 @@ const WordList = ({ words, handleAction }) => {
   };
 
   const handleDeleteClick = (lesson, element) => {
-    fetch("http://localhost:9000/words/delete_word", {
+    fetch(`${API_URL}words/delete_word`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -69,7 +70,7 @@ const WordList = ({ words, handleAction }) => {
   };
 
   const handleDeleteLessonClick = (itemToDelete) => {
-    fetch(`http://localhost:9000/lessons/delete_lesson/${itemToDelete}`, {
+    fetch(`${API_URL}lessons/delete_lesson/${itemToDelete}`, {
       method: "DELETE",
     }).then((response) => response.json());
 

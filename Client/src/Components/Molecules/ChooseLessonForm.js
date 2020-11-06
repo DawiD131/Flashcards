@@ -18,7 +18,7 @@ const Select = styled.select`
 const ChooseLessonForm = ({
   lessonsSubjects,
   handleSubmit,
-  value,
+
   handleLessonSelect,
 }) => {
   return (
@@ -26,11 +26,11 @@ const ChooseLessonForm = ({
       {lessonsSubjects.length > 0 ? (
         <StyledForm onSubmit={handleSubmit}>
           <h2>Lekcja:</h2>
-          <Select value={value} onChange={handleLessonSelect}>
-            {lessonsSubjects.map((item, index) => {
+          <Select onChange={handleLessonSelect}>
+            {lessonsSubjects.map((lesson, index) => {
               return (
-                <option key={index} value={item}>
-                  {item}
+                <option key={index} value={lesson}>
+                  {lesson}
                 </option>
               );
             })}

@@ -1,52 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../Atoms/Button";
 import StyledInput from "../Shared/StyledInput";
 import StyledForm from "../Shared/StyledForm";
+import styled from "styled-components";
+import API_URL from "../../api";
 
-const ChooseLessonForm = ({
+const Select = styled.select`
+  width: 40%;
+  height: 17%;
+  font-size: 13px;
+  margin-bottom: 1%;
+  background: #f2e3bc;
+  outline: none;
+  display: block;
+  border: none;
+  border-radius: 4px;
+`;
+
+const AddWordForm = ({
   lessonsSubjects,
-  currentLessonValue,
-  handleAction,
+  handleAddWordSubmit,
+  wordValue,
+  translationValue,
+  handleWordInput,
+  handleTranslationInput,
 }) => {
-  const [wordValue, setWordValue] = useState("");
-  const [translationValue, setTranslationValue] = useState("");
-
-  const handleWordInput = (e) => setWordValue(e.target.value);
-  const handleTranslationInput = (e) => setTranslationValue(e.target.value);
-
-  const handleAddWordSubmit = (event) => {
-    event.preventDefault();
-    fetch("http://localhost:9000/words/save_word", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        lesson: currentLessonValue,
-        word: wordValue,
-        translation: translationValue,
-        isLearned: false,
-      }),
-    });
-
-    handleAction({
-      type: "ADD_WORD",
-      lesson: currentLessonValue,
-      wordToAdd: {
-        word: wordValue,
-        translation: translationValue,
-        isLearned: false,
-      },
-    });
-
-    setTranslationValue("");
-    setWordValue("");
-  };
   return (
     <>
       {lessonsSubjects.length > 0 ? (
         <StyledForm onSubmit={handleAddWordSubmit}>
           <h2>Dodaj fiszkę</h2>
+
           <label htmlFor="wordValue">
             Słówko:
             <StyledInput
@@ -76,4 +60,4 @@ const ChooseLessonForm = ({
   );
 };
 
-export default ChooseLessonForm;
+export default AddWordForm;

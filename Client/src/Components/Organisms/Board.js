@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Card from "../Molecules/Card";
 import ButtonBar from "../Molecules/ButtonBar";
 import KeyboardEventHandler from "react-keyboard-event-handler";
+import API_URL from "../../api";
 
 const StyledCardBox = styled.div`
   display: flex;
@@ -46,8 +47,8 @@ const Board = ({
     }
   };
 
-  const handleIsLearnedClick = (status, x) => {
-    fetch("http://localhost:9000/words/update_word_status", {
+  const handleIsLearnedClick = (status) => {
+    fetch(`${API_URL}words/update_word_status`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

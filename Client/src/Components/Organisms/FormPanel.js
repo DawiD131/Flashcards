@@ -19,13 +19,16 @@ const FormPanel = ({
   lessonsSubjects,
   handleAction,
   currentLessonValue,
-  value,
+  lessonSelectValue,
   handleSubmit,
   handleLessonSelect,
-  handleLessonSubmit,
+  handleAddLessonSubmit,
   handleWordInput,
   handleLessonInput,
   handleTranslationInput,
+  handleAddWordSubmit,
+  wordValue,
+  translationValue,
   lessonValue,
 }) => {
   return (
@@ -34,20 +37,24 @@ const FormPanel = ({
         <BouncyDiv>
           <ChooseLessonForm
             lessonsSubjects={lessonsSubjects}
-            value={value}
+            lessonsSelectValue={lessonSelectValue}
             handleSubmit={handleSubmit}
             handleLessonSelect={handleLessonSelect}
           />
           <AddWordForm
             lessonsSubjects={lessonsSubjects}
+            handleAddWordSubmit={handleAddWordSubmit}
+            wordValue={wordValue}
+            handleWordInput={handleWordInput}
+            translationValue={translationValue}
+            handleTranslationInput={handleTranslationInput}
+            lessonsSubjects={lessonsSubjects}
             handleAction={handleAction}
             currentLessonValue={currentLessonValue}
-            handleTranslationInput={handleTranslationInput}
-            handleWordInput={handleWordInput}
           />
           <AddLessonForm
             lessonValue={lessonValue}
-            handleLessonSubmit={handleLessonSubmit}
+            handleAddLessonSubmit={handleAddLessonSubmit}
             handleLessonInput={handleLessonInput}
           />
         </BouncyDiv>
