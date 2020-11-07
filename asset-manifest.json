@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/Flashcards/static/css/main.20ac4ad5.chunk.css",
-    "main.js": "/Flashcards/static/js/main.65aa68ff.chunk.js",
-    "main.js.map": "/Flashcards/static/js/main.65aa68ff.chunk.js.map",
+    "main.js": "/Flashcards/static/js/main.b5d23bbb.chunk.js",
+    "main.js.map": "/Flashcards/static/js/main.b5d23bbb.chunk.js.map",
     "runtime-main.js": "/Flashcards/static/js/runtime-main.d23f0565.js",
     "runtime-main.js.map": "/Flashcards/static/js/runtime-main.d23f0565.js.map",
     "static/js/2.614c7ff8.chunk.js": "/Flashcards/static/js/2.614c7ff8.chunk.js",
     "static/js/2.614c7ff8.chunk.js.map": "/Flashcards/static/js/2.614c7ff8.chunk.js.map",
     "index.html": "/Flashcards/index.html",
-    "precache-manifest.6e4d06bd75116f84baf9aec5ad155ee8.js": "/Flashcards/precache-manifest.6e4d06bd75116f84baf9aec5ad155ee8.js",
+    "precache-manifest.7495aafd4662ad08b430dae2169a9b1f.js": "/Flashcards/precache-manifest.7495aafd4662ad08b430dae2169a9b1f.js",
     "service-worker.js": "/Flashcards/service-worker.js",
     "static/css/main.20ac4ad5.chunk.css.map": "/Flashcards/static/css/main.20ac4ad5.chunk.css.map",
     "static/js/2.614c7ff8.chunk.js.LICENSE.txt": "/Flashcards/static/js/2.614c7ff8.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.d23f0565.js",
     "static/js/2.614c7ff8.chunk.js",
     "static/css/main.20ac4ad5.chunk.css",
-    "static/js/main.65aa68ff.chunk.js"
+    "static/js/main.b5d23bbb.chunk.js"
   ]
 }
