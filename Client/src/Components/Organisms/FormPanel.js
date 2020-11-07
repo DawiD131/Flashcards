@@ -11,7 +11,11 @@ const BouncyDiv = styled.div`
   animation: 1s ${bounceAnimation};
   display: flex;
   width: 100%;
+  flex-wrap: wrap;
   justify-content: center;
+  @media all and (max-width: 750px) {
+    margin: 100px 0 30px 0;
+  }
 `;
 
 const FormPanel = ({
@@ -29,7 +33,7 @@ const FormPanel = ({
   handleAddWordSubmit,
   wordValue,
   translationValue,
-  lessonValue,
+  lessonInputValue,
 }) => {
   return (
     <>
@@ -48,12 +52,11 @@ const FormPanel = ({
             handleWordInput={handleWordInput}
             translationValue={translationValue}
             handleTranslationInput={handleTranslationInput}
-            lessonsSubjects={lessonsSubjects}
             handleAction={handleAction}
             currentLessonValue={currentLessonValue}
           />
           <AddLessonForm
-            lessonValue={lessonValue}
+            lessonInputValue={lessonInputValue}
             handleAddLessonSubmit={handleAddLessonSubmit}
             handleLessonInput={handleLessonInput}
           />

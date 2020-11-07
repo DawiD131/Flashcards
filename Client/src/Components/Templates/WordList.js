@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "../../style.css";
 import styled from "styled-components";
 import GlobalStyle from "../Shared/GlobalTheme";
@@ -12,17 +12,12 @@ const StyledWrapper = styled.div`
   overflow: scroll;
   flex-direction: column;
   align-items: center;
-  height: 85vh;
+  height: 100vh;
+  justify-content: space-between;
   width: 100%;
 `;
 
-const WordList = ({ words, handleAction }) => {
-  const [data, setData] = useState(words);
-
-  useEffect(() => {
-    setData(words);
-  }, [words]);
-
+const WordList = ({ state, dispatch }) => {
   const handleConfirm = (lessonOrWord, itemToDelete, lesson) => {
     switch (lessonOrWord) {
       case "lesson":
@@ -36,7 +31,7 @@ const WordList = ({ words, handleAction }) => {
         if (
           window.confirm(`Czy na pewno chcesz usunąć słówko ${itemToDelete}?`)
         ) {
-          handleDeleteClick(lesson, itemToDelete);
+          handleDeleteWordClick(lesson, itemToDelete);
         }
         break;
       default:
@@ -44,7 +39,7 @@ const WordList = ({ words, handleAction }) => {
     }
   };
 
-  const handleDeleteClick = (lesson, element) => {
+  const handleDeleteWordClick = (lesson, element) => {
     fetch(`${API_URL}words/delete_word`, {
       method: "DELETE",
       headers: {
@@ -57,15 +52,11 @@ const WordList = ({ words, handleAction }) => {
       }),
     });
 
-    data.map((item, index) => {
-      if (lesson === item.lesson) {
-        data[index].words.map((el, id) => {
-          if (element === el.word) {
-            data[index].words.splice(id, 1);
-          }
-        });
-      }
-      setData([...data]);
+    console.log(lesson, element);
+    dispatch({
+      type: "DELETE_WORD",
+      lesson: lesson,
+      wordToDelete: element,
     });
   };
 
@@ -74,20 +65,20 @@ const WordList = ({ words, handleAction }) => {
       method: "DELETE",
     }).then((response) => response.json());
 
-    handleAction({
-      type: "REMOVE",
-      itemToDelete,
+    dispatch({
+      type: "DELETE_LESSON",
+      lessonToDelete: itemToDelete,
     });
   };
 
   return (
     <>
       <GlobalStyle />
-      <Header txt="Lista fiszek" />
       <StyledWrapper>
-        <WordTable data={data} handleConfirm={handleConfirm} />
+        <Header txt="Lista fiszek" />
+        <WordTable data={state.data} handleConfirm={handleConfirm} />
+        <ButtonBottomBar />
       </StyledWrapper>
-      <ButtonBottomBar />
     </>
   );
 };

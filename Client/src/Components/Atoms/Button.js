@@ -4,25 +4,34 @@ import styled from "styled-components";
 const StyledButton = styled.button`
   background: ${(props) =>
     props.dangerous
-      ? "#ff691f"
+      ? "#F25F5C"
       : props.good
-      ? "green"
+      ? "#70C1B3"
       : props.warning
-      ? "#ffa91f"
+      ? "#FFE066"
       : props.control
-      ? "#0e486c"
-      : "#0276f2"};
-  font-size: 16px;
-  box-shadow: 1px 2px 4px black;
-  border: 0;
-  border-radius: 5px;
+      ? "#247BA0"
+      : props.toggle
+      ? "#59B3D9"
+      : "#87A5C0"};
+  font-size: 15px;
+  box-shadow: 1px 1px 2px black;
+  border-radius: 3px;
+  border: none;
   margin-right: ${(props) => (props.secondary ? "7px" : "null")};
   color: black;
-  width: ${(props) => (props.isLearned ? "8%" : "")};
+  width: ${(props) =>
+    props.toggle
+      ? "60px"
+      : props.isLearned
+      ? "40px"
+      : props.control
+      ? "30px"
+      : null};
   height: 30px;
   outline: none;
   cursor: pointer;
-  margin-top: ${(props) => (props.submit ? "5px" : null)};
+  margin-top: ${(props) => (props.submit ? "15px" : null)};
   &:hover {
     box-shadow: 3px 3px 4px black;
   }
@@ -39,6 +48,7 @@ const Button = (props) => {
       warning={props.warning}
       good={props.good}
       onClick={props.function}
+      toggle={props.toggle}
     >
       {props.txt}
     </StyledButton>

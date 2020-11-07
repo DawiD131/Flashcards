@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 const GlobalStyle = createGlobalStyle`
 body {
-  background: #53a9df;
+  background: #8096B3;
   font-family: 'Questrial', sans-serif;
  margin:0;
  

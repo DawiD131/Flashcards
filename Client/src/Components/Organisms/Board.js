@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../../style.css";
 import styled from "styled-components";
 import Card from "../Molecules/Card";
@@ -8,17 +8,34 @@ import API_URL from "../../api";
 
 const StyledCardBox = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: column;
-  width: 30%;
+  @media all and (min-width: 1368px) {
+    width: 30%;
+  }
+  @media all and (max-width: 1367px) {
+    width: 40%;
+  }
+
+  @media all and (max-width: 1050px) {
+    width: 45%;
+  }
+
+  @media all and (max-width: 750px) {
+    width: 60%;
+  }
+
+  @media all and (max-width: 749px) {
+    width: 75%;
+  }
+
+  @media all and (max-width: 550px) {
+    width: 95%;
+  }
   height: 35%;
 `;
 
-const Board = ({
-  words,
-  lessonsSubjects,
-  currentLessonValue,
-  handleAction,
-}) => {
+const Board = ({ words, lessonsSubjects, currentLessonValue, dispatch }) => {
   const [wordNumber, setWordNumber] = useState(0);
   const [isTranslationVisible, setIsTranslationVisible] = useState(false);
 
@@ -60,10 +77,12 @@ const Board = ({
         isLearned: status,
       }),
     });
-    handleAction({
+
+    dispatch({
       type: "IS_WORD_LEARNED",
       lesson: currentLessonValue,
       word: words[wordNumber].word,
+      translation: words[wordNumber].translate,
       status,
     });
   };
@@ -85,27 +104,26 @@ const Board = ({
   };
 
   return (
-    <>
+    <StyledCardBox>
       <KeyboardEventHandler
         handleKeys={["left", "right", "down"]}
         onKeyEvent={(key) => handleKeyEvent(key)}
       />
-      <StyledCardBox>
-        <Card
-          isTranslationVisible={isTranslationVisible}
-          word={words.length > 0 ? words[wordNumber].word : null}
-          translation={words.length > 0 ? words[wordNumber].translation : null}
-          lessonsSubjects={lessonsSubjects}
-        />
-        <ButtonBar
-          words={words}
-          isTranslationVisible={isTranslationVisible}
-          handleIsLearnedClick={handleIsLearnedClick}
-          handleNextOrPrevClick={handleNextOrPrevClick}
-          handleShowTranslationVisibleClick={handleShowTranslationVisibleClick}
-        />
-      </StyledCardBox>
-    </>
+
+      <Card
+        isTranslationVisible={isTranslationVisible}
+        word={words.length > 0 ? words[wordNumber].word : null}
+        translation={words.length > 0 ? words[wordNumber].translation : null}
+        lessonsSubjects={lessonsSubjects}
+      />
+      <ButtonBar
+        words={words}
+        isTranslationVisible={isTranslationVisible}
+        handleIsLearnedClick={handleIsLearnedClick}
+        handleNextOrPrevClick={handleNextOrPrevClick}
+        handleShowTranslationVisibleClick={handleShowTranslationVisibleClick}
+      />
+    </StyledCardBox>
   );
 };
 

@@ -4,8 +4,10 @@ import styled from "styled-components";
 import Button from "../Atoms/Button";
 
 const StyledBox = styled.div`
+  min-height: 40px;
   display: flex;
-  height: 6vh;
+  self-align: flex-end;
+  width: 100%;
   border-top: 0.1vh solid black;
 `;
 
@@ -14,25 +16,8 @@ const StyledWrapper = styled.div`
   align-items: center;
   align-content: center;
   justify-content: flex-end;
-  width: 50%;
-  background-color: #3098d9;
-`;
-
-const StyledWordListBox = styled.div`
-  display: flex;
-  align-items: center;
-  align-content: center;
-  justify-content: center;
   width: 100%;
-  background-color: #3098d9;
-`;
-
-const StyledPanel = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 50%;
-  background-color: #3098d9;
+  background-color: #3e5c76;
 `;
 
 const ButtonBottomBar = ({ main, handleIsFormPanelVisibleClick, visible }) => {
@@ -40,7 +25,6 @@ const ButtonBottomBar = ({ main, handleIsFormPanelVisibleClick, visible }) => {
     <StyledBox>
       {main ? (
         <>
-          <StyledPanel></StyledPanel>
           <StyledWrapper>
             <Link to="/WordList">
               <Button secondary warning renderAs="button" txt="word list" />
@@ -54,11 +38,11 @@ const ButtonBottomBar = ({ main, handleIsFormPanelVisibleClick, visible }) => {
           </StyledWrapper>
         </>
       ) : (
-        <StyledWordListBox>
+        <StyledWrapper>
           <Link to="/">
-            <Button secondary renderAs="button" txt="Main Board" />
+            <Button warning secondary renderAs="button" txt="Main Board" />
           </Link>
-        </StyledWordListBox>
+        </StyledWrapper>
       )}
     </StyledBox>
   );

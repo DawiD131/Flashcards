@@ -1,12 +1,25 @@
 import React from "react";
 import styled from "styled-components";
 import Button from "../Atoms/Button";
+import NoLessonAlertBox from "../Molecules/NoLessonAlertBox";
+import procentCalculator from "../../helpers/helpers";
 
 const Table = styled.table`
   font-family: arial, sans-serif;
   text-align: center;
   border-collapse: collapse;
-  width: 35%;
+  width: 50%;
+  @media all and (max-width: 750px) {
+    width: 95%;
+  }
+`;
+const ProcentValue = styled.div`
+  margin-right: 10px;
+`;
+const StyledBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 `;
 const Td = styled.td`
   border-bottom: 1px solid black;
@@ -23,15 +36,20 @@ const Th = styled.th`
   padding: 3px;
 `;
 
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  margin-top: 50px;
+`;
+
 const WordTable = ({ data, handleConfirm }) => {
   return (
-    <>
+    <Wrapper>
       {data.length === 0 ? (
-        <>
-          <h1>Brak lekcji</h1>
-          <br />
-          <h1>Przejdź do panelu głównego i dodaj lekcję</h1>
-        </>
+        <NoLessonAlertBox />
       ) : (
         data.map((item, index) => {
           return (
@@ -39,7 +57,12 @@ const WordTable = ({ data, handleConfirm }) => {
               <tbody>
                 <tr>
                   <Th>
-                    {`Temat: ${item.lesson}`}
+                    <StyledBox>
+                      {`Temat: ${item.lesson}`}
+                      <ProcentValue>
+                        {`${procentCalculator(item.words)}%`}
+                      </ProcentValue>
+                    </StyledBox>
                     <Button
                       dangerous
                       txt="Usuń"
@@ -71,7 +94,7 @@ const WordTable = ({ data, handleConfirm }) => {
           );
         })
       )}
-    </>
+    </Wrapper>
   );
 };
 

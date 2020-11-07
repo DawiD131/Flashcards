@@ -8,7 +8,7 @@ const procentCalculator = (words) => {
       return item;
     }
   });
-  return Math.round((counter / words.length) * 100);
+  return words.length === 0 ? 0 : Math.round((counter / words.length) * 100);
 };
 
 export default procentCalculator;

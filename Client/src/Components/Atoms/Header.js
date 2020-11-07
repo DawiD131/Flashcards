@@ -2,16 +2,19 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledText = styled.h1`
-  margin-top: 1%;
-  font-size: 50px;
-  font-weight: 200;
+  margin-top: 20px;
+  font-size: 30px;
+  font-weight: 300;
+  letter-spacing: 3px;
   color: black;
 `;
 
 const HeaderBox = styled.div`
-  background-color: #3098d9;
+  align-items: center;
+  background-color: #3e5c76;
   display: flex;
-  height: 9vh;
+  height: 55px;
+  width: 100%;
   justify-content: center;
   box-shadow: 0 4px 2px -2px black;
 `;

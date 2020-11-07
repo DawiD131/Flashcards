@@ -8,17 +8,15 @@ const Select = styled.select`
   height: 17%;
   font-size: 13px;
   margin-bottom: 1%;
-  background: #f2e3bc;
+  background: #f0ebd8;
   outline: none;
   display: block;
   border: none;
-  border-radius: 4px;
 `;
 
 const ChooseLessonForm = ({
   lessonsSubjects,
   handleSubmit,
-
   handleLessonSelect,
 }) => {
   return (

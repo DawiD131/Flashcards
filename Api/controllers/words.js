@@ -4,7 +4,7 @@ exports.delete_word = (req, res, next) => {
   let index = 0;
   const WordToDelete = {
     word: req.body.word,
-    translate: req.body.translation,
+    translation: req.body.translation,
   };
 
   const query = { lesson: req.body.lesson };
@@ -14,7 +14,7 @@ exports.delete_word = (req, res, next) => {
     data.words.map((item, id) => {
       if (
         item.word === req.body.word &&
-        item.translate === req.body.translation
+        item.translation === req.body.translation
       ) {
         index = id;
       }
@@ -40,7 +40,7 @@ exports.get_words = (req, res, next) => {
 exports.save_word = (req, res, next) => {
   let newWord = {
     word: req.body.word,
-    translate: req.body.translation,
+    translation: req.body.translation,
     isLearned: req.body.isLearned,
   };
 

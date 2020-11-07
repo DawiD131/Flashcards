@@ -1,17 +1,37 @@
-const initialState = [];
-
 const appReducer = (state, action) => {
   switch (action.type) {
-    case "ADD":
-      return [...state, { lesson: action.lessonValue, words: [] }];
-    case "REMOVE":
-      return state.filter((item) => item.lesson !== action.itemToDelete);
+    case "ADD_LESSON":
+      return {
+        data: [...state.data, { lesson: action.lessonInputValue, words: [] }],
+        lessonsSubjects: [...state.lessonsSubjects, action.lessonInputValue],
+        words: state.words,
+        currentLesson: state.currentLesson,
+      };
+
+    case "DELETE_LESSON":
+      console.log(state.lessonsSubjects.length);
+      return {
+        data: state.data.filter(
+          (item) => item.lesson !== action.lessonToDelete
+        ),
+        words: state.lessonsSubjects.length === 1 ? [] : state.words,
+        currentLesson: state.currentLesson,
+        lessonsSubjects: state.lessonsSubjects.filter(
+          (item) => item !== action.lessonToDelete
+        ),
+      };
+
     case "GET_LESSON":
-      return state;
+      return {
+        words: action.words,
+        currentLesson: action.currentLesson,
+        lessonsSubjects: state.lessonsSubjects,
+        data: state.data,
+      };
+
     case "ADD_WORD":
-      const newState = state.map((item) => {
+      state.data.map((item) => {
         if (item.lesson === action.lesson) {
-          console.log(item);
           item.words.push(action.wordToAdd);
           return item;
         } else {
@@ -19,17 +39,57 @@ const appReducer = (state, action) => {
         }
       });
 
-      return newState;
+      return {
+        words: [...state.words, action.wordToAdd],
+        data: state.data,
+        lessonsSubjects: state.lessonsSubjects,
+        currentLesson: state.currentLesson,
+      };
+
+    case "DELETE_WORD":
+      state.data.map((item) => {
+        if (item.lesson === action.lesson) {
+          item.words.map((el, index) => {
+            if (el.word === action.wordToDelete) {
+              item.words.splice(index, 1);
+            }
+          });
+          return item;
+        } else {
+          return item;
+        }
+      });
+
+      return {
+        data: state.data,
+        words: state.words.filter((item) => item.word !== action.wordToDelete),
+        currentLesson: state.currentLesson,
+        lessonsSubjects: state.lessonsSubjects,
+      };
     case "IS_WORD_LEARNED":
-      state
-        .filter((item) => item.lesson === action.lesson)[0]
-        .words.filter((item) => item.word === action.word)[0].isLearned =
-        action.status;
+      console.log(action.status);
+      state.data.map((item) => {
+        if (item.lesson === action.lesson) {
+          item.words.map((el) => {
+            if (el.word === action.word) {
+              el.isLearned = action.status;
+            }
+          });
+          return item;
+        } else {
+          return item;
+        }
+      });
       return state;
-    case "REMOVE_WORD":
-      return;
+
     case "FETCH":
-      return action.data;
+      return {
+        data: action.data,
+        words: action.data.length ? action.data[0].words : [],
+        lessonsSubjects: action.data.map((item) => item.lesson),
+        currentLesson: action.data.length ? action.data[0].lesson : "",
+      };
+
     default:
       return state;
   }

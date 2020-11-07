@@ -8,30 +8,63 @@ import GlobalStyle from "../../Shared/GlobalTheme";
 import API_URL from "../../../api";
 import "../../../style.css";
 
-const MainTemplate = ({ data, handleAction }) => {
-  const lessons = data.map((item) => item.lesson);
-
+const MainTemplate = ({ state, dispatch }) => {
   const [words, setWords] = useState([]);
   const [wordValue, setWordValue] = useState("");
   const [translationValue, setTranslationValue] = useState("");
   const [lessonsSubjects, setLessonsSubjects] = useState([]);
-  const [lessonSelectValue, setLessonSelectValue] = useState(lessons[1]);
+  const [lessonSelectValue, setLessonSelectValue] = useState("");
   const [lessonInputValue, setLessonInputValue] = useState("");
   const [isFormPanelVisible, setIsFormPanelVisible] = useState(true);
 
   useEffect(() => {
-    console.log("rerender");
-
-    console.log(lessons[0]);
-    setWords(data.length > 0 ? data[0].words : []);
-    // setLessonSelectValue(lessons[0]);
-    setLessonsSubjects(lessons);
-  }, [data]);
+    setWords(state.words ? state.words : []);
+    setLessonSelectValue(
+      state.currentLesson
+        ? state.currentLesson
+        : state.lessonsSubjects
+        ? state.lessonsSubjects[0]
+        : ""
+    );
+    setLessonsSubjects(state.lessonsSubjects ? state.lessonsSubjects : []);
+  }, [state]);
 
   const handleWordInput = (e) => setWordValue(e.target.value);
   const handleTranslationInput = (e) => setTranslationValue(e.target.value);
   const handleLessonInput = (e) => setLessonInputValue(e.target.value);
   const handleLessonSelect = (e) => setLessonSelectValue(e.target.value);
+
+  const formValidation = (type) => {
+    switch (type) {
+      case "lesson":
+        if (
+          lessonInputValue.length === 0 ||
+          lessonInputValue[0] === " " ||
+          (lessonsSubjects.indexOf(lessonInputValue) === -1) === false
+        ) {
+          window.alert(
+            "Nazwa lekcji nie moze być pusta, powtarzać się i zaczynać od spacji!"
+          );
+          return false;
+        } else return true;
+      case "flashcard":
+        if (
+          wordValue.length === 0 ||
+          translationValue.length === 0 ||
+          wordValue[0] === " " ||
+          translationValue[0] === " " ||
+          words.find(
+            (item) =>
+              item.word === wordValue && item.translation === translationValue
+          ) !== undefined
+        ) {
+          window.alert(
+            "Słówko i tłumaczenie nie mogą być puste i zaczynać się od spacji lub powtarzać się!"
+          );
+          return false;
+        } else return true;
+    }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -39,52 +72,57 @@ const MainTemplate = ({ data, handleAction }) => {
       .then((response) => response.json())
       .then((data) => {
         setWords(data.words);
-        handleAction({ type: "GET_LESSON" });
+        dispatch({
+          type: "GET_LESSON",
+          words: data.words,
+          currentLesson: lessonSelectValue,
+        });
       });
-    // setLessonSelectValue(lessons[0]);
   };
 
   const handleAddLessonSubmit = (event) => {
     event.preventDefault();
-    fetch(`${API_URL}lessons/create_new_lesson`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ lesson: lessonInputValue }),
-    });
+    if (formValidation("lesson")) {
+      fetch(`${API_URL}lessons/create_new_lesson`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ lesson: lessonInputValue }),
+      });
 
-    handleAction({
-      type: "ADD",
-      lessonValue: lessonInputValue,
-    });
+      dispatch({ type: "ADD_LESSON", lessonInputValue: lessonInputValue });
+    }
+
     setLessonInputValue("");
   };
 
   const handleAddWordSubmit = (event) => {
     event.preventDefault();
-    fetch(`${API_URL}words/save_word`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        lesson: lessonSelectValue,
-        word: wordValue,
-        translation: translationValue,
-        isLearned: false,
-      }),
-    });
+    if (formValidation("flashcard")) {
+      fetch(`${API_URL}words/save_word`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          lesson: lessonSelectValue,
+          word: wordValue,
+          translation: translationValue,
+          isLearned: false,
+        }),
+      });
 
-    handleAction({
-      type: "ADD_WORD",
-      lesson: lessonSelectValue,
-      wordToAdd: {
-        word: wordValue,
-        translation: translationValue,
-        isLearned: false,
-      },
-    });
+      dispatch({
+        type: "ADD_WORD",
+        lesson: lessonSelectValue,
+        wordToAdd: {
+          word: wordValue,
+          translation: translationValue,
+          isLearned: false,
+        },
+      });
+    }
 
     setTranslationValue("");
     setWordValue("");
@@ -96,13 +134,14 @@ const MainTemplate = ({ data, handleAction }) => {
   return (
     <>
       <GlobalStyle />
-      <Header txt="FLASHCARDS" />
+
       <StyledWrapper>
+        <Header txt="FLASHCARDS" />
         <Board
+          dispatch={dispatch}
           words={words}
           lessonsSubjects={lessonsSubjects}
           currentLessonValue={lessonSelectValue}
-          handleAction={handleAction}
         />
         {isFormPanelVisible ? (
           <FormPanel
@@ -118,18 +157,18 @@ const MainTemplate = ({ data, handleAction }) => {
             lessonSelectValue={lessonSelectValue}
             handleSubmit={handleSubmit}
             currentLessonValue={lessonSelectValue}
-            lessonValue={lessonInputValue}
+            lessonInputValue={lessonInputValue}
             handleAddLessonSubmit={handleAddLessonSubmit}
           />
         ) : null}
+        <ButtonBottomBar
+          main
+          handleIsFormPanelVisibleClick={handleIsFormPanelVisibleClick}
+          visible={isFormPanelVisible}
+          show={false}
+          lessonsSubjects={lessonsSubjects}
+        />
       </StyledWrapper>
-      <ButtonBottomBar
-        main
-        handleIsFormPanelVisibleClick={handleIsFormPanelVisibleClick}
-        visible={isFormPanelVisible}
-        show={false}
-        lessonsSubjects={lessonsSubjects}
-      />
     </>
   );
 };
