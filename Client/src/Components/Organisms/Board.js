@@ -8,31 +8,36 @@ import API_URL from "../../api";
 
 const StyledCardBox = styled.div`
   display: flex;
-  width: 100%;
+  grid-row: 2/3;
+  justify-self: center;
+  align-self: center;
+  width: 400px;
+  margin-bottom: 20px;
   flex-direction: column;
-  @media all and (min-width: 1368px) {
-    width: 30%;
-  }
-  @media all and (max-width: 1367px) {
-    width: 40%;
-  }
+  justify-content: center;
+  // @media all and (min-width: 1368px) {
+  //   width: 30%;
+  // }
+  // @media all and (max-width: 1367px) {
+  //   width: 40%;
+  // }
 
-  @media all and (max-width: 1050px) {
-    width: 45%;
-  }
+  // @media all and (max-width: 1050px) {
+  //   width: 45%;
+  // }
 
-  @media all and (max-width: 750px) {
-    width: 60%;
-  }
+  // @media all and (max-width: 750px) {
+  //   width: 60%;
+  // }
 
-  @media all and (max-width: 749px) {
-    width: 75%;
-  }
+  // @media all and (max-width: 749px) {
+  //   width: 75%;
+  // }
 
   @media all and (max-width: 550px) {
-    width: 95%;
+    width: 90%;
   }
-  height: 35%;
+  height: 38%;
 `;
 
 const Board = ({ words, lessonsSubjects, currentLessonValue, dispatch }) => {

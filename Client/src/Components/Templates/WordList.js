@@ -9,7 +9,6 @@ import API_URL from "../../api";
 
 const StyledWrapper = styled.div`
   display: flex;
-  overflow: scroll;
   flex-direction: column;
   align-items: center;
   height: 100vh;
@@ -61,9 +60,9 @@ const WordList = ({ state, dispatch }) => {
   };
 
   const handleDeleteLessonClick = (itemToDelete) => {
-    fetch(`${API_URL}lessons/delete_lesson/${itemToDelete}`, {
-      method: "DELETE",
-    }).then((response) => response.json());
+    // fetch(`${API_URL}lessons/delete_lesson/${itemToDelete}`, {
+    //   method: "DELETE",
+    // }).then((response) => response.json());
 
     dispatch({
       type: "DELETE_LESSON",

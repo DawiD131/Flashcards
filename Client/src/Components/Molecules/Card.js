@@ -7,7 +7,8 @@ const StyledWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 260px;
+  min-height: 240px;
+  margin-top: 15px;
   background-color: #5c7699;
   box-shadow: inset 0 0 5px #000000;
   @media all and (max-width: 750px) {

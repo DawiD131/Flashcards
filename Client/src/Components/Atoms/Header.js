@@ -11,6 +11,7 @@ const StyledText = styled.h1`
 
 const HeaderBox = styled.div`
   align-items: center;
+  grid-row: 1/2;
   background-color: #3e5c76;
   display: flex;
   height: 55px;

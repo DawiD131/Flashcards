@@ -6,6 +6,7 @@ import Button from "../Atoms/Button";
 const StyledBox = styled.div`
   min-height: 40px;
   display: flex;
+  girid-row: 4/5;
   self-align: flex-end;
   width: 100%;
   border-top: 0.1vh solid black;

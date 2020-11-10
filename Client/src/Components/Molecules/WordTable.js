@@ -40,9 +40,16 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+
+  overflow-y: scroll;
   height: 100%;
   align-items: center;
   margin-top: 50px;
+  margin-bottom: 50px;
+  ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+  }
 `;
 
 const WordTable = ({ data, handleConfirm }) => {
@@ -60,7 +67,9 @@ const WordTable = ({ data, handleConfirm }) => {
                     <StyledBox>
                       {`Temat: ${item.lesson}`}
                       <ProcentValue>
-                        {`${procentCalculator(item.words)}%`}
+                        {item.words.length > 0
+                          ? `${procentCalculator(item.words)}%`
+                          : null}
                       </ProcentValue>
                     </StyledBox>
                     <Button

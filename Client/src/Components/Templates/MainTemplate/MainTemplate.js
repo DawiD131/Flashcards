@@ -9,7 +9,6 @@ import API_URL from "../../../api";
 import "../../../style.css";
 
 const MainTemplate = ({ state, dispatch }) => {
-  const [words, setWords] = useState([]);
   const [wordValue, setWordValue] = useState("");
   const [translationValue, setTranslationValue] = useState("");
   const [lessonsSubjects, setLessonsSubjects] = useState([]);
@@ -18,7 +17,6 @@ const MainTemplate = ({ state, dispatch }) => {
   const [isFormPanelVisible, setIsFormPanelVisible] = useState(true);
 
   useEffect(() => {
-    setWords(state.words ? state.words : []);
     setLessonSelectValue(
       state.currentLesson
         ? state.currentLesson
@@ -53,7 +51,7 @@ const MainTemplate = ({ state, dispatch }) => {
           translationValue.length === 0 ||
           wordValue[0] === " " ||
           translationValue[0] === " " ||
-          words.find(
+          state.words.find(
             (item) =>
               item.word === wordValue && item.translation === translationValue
           ) !== undefined
@@ -71,7 +69,6 @@ const MainTemplate = ({ state, dispatch }) => {
     fetch(`${API_URL}words/get_words/${lessonSelectValue}`)
       .then((response) => response.json())
       .then((data) => {
-        setWords(data.words);
         dispatch({
           type: "GET_LESSON",
           words: data.words,
@@ -139,12 +136,13 @@ const MainTemplate = ({ state, dispatch }) => {
         <Header txt="FLASHCARDS" />
         <Board
           dispatch={dispatch}
-          words={words}
+          words={state.words}
           lessonsSubjects={lessonsSubjects}
           currentLessonValue={lessonSelectValue}
         />
         {isFormPanelVisible ? (
           <FormPanel
+            currentLesson={state.currentLesson}
             handleAddWordSubmit={handleAddWordSubmit}
             wordValue={wordValue}
             handleWordInput={handleWordInput}

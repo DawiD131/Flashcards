@@ -9,12 +9,13 @@ const appReducer = (state, action) => {
       };
 
     case "DELETE_LESSON":
-      console.log(state.lessonsSubjects.length);
       return {
         data: state.data.filter(
           (item) => item.lesson !== action.lessonToDelete
         ),
-        words: state.lessonsSubjects.length === 1 ? [] : state.words,
+        words: state.data.filter(
+          (item) => item.lesson !== action.lessonToDelete
+        )[0].words,
         currentLesson: state.currentLesson,
         lessonsSubjects: state.lessonsSubjects.filter(
           (item) => item !== action.lessonToDelete
@@ -66,6 +67,7 @@ const appReducer = (state, action) => {
         currentLesson: state.currentLesson,
         lessonsSubjects: state.lessonsSubjects,
       };
+
     case "IS_WORD_LEARNED":
       console.log(action.status);
       state.data.map((item) => {

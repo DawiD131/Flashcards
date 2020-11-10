@@ -10,16 +10,19 @@ const bounceAnimation = keyframes`${bounce}`;
 const BouncyDiv = styled.div`
   animation: 1s ${bounceAnimation};
   display: flex;
+  grid-row: 3/4;
+  margin-bottom: 70px;
   width: 100%;
-  flex-wrap: wrap;
   justify-content: center;
   @media all and (max-width: 750px) {
-    margin: 100px 0 30px 0;
+    margin: 50px 0 30px 0;
+    flex-wrap: wrap;
   }
 `;
 
 const FormPanel = ({
   isFormPanelVisible,
+  currentLesson,
   lessonsSubjects,
   handleAction,
   currentLessonValue,
@@ -40,6 +43,7 @@ const FormPanel = ({
       {isFormPanelVisible ? (
         <BouncyDiv>
           <ChooseLessonForm
+            currentLesson={currentLesson}
             lessonsSubjects={lessonsSubjects}
             lessonsSelectValue={lessonSelectValue}
             handleSubmit={handleSubmit}
