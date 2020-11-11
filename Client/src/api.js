@@ -1,3 +1,3 @@
-const API_URL = "http://localhost:9000/";
+const API_URL = "https://flashcards--api.herokuapp.com/";
 
 export default API_URL;

@@ -16,22 +16,22 @@ const App = () => {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
   useEffect(() => {
-    fetch(`${API_URL}lessons/get_lessons_with_words`)
-      .then((response) => {
-        if (response.ok) {
-          return response;
-        }
-        throw Error(response.status);
-      })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        dispatch({
-          type: "FETCH",
-          data,
+    async function getData(url) {
+      await fetch(`${API_URL}lessons/get_lessons_with_words`)
+        .then((response) => response.json())
+        .then(function store(data) {
+          localStorage.clear();
+          localStorage.setItem("data", JSON.stringify(data.hits));
+          dispatch({
+            type: "FETCH",
+            data,
+          });
+        })
+        .catch(function (error) {
+          console.log("Request failed", error);
         });
-      })
-      .catch((error) => console.log(error));
+    }
+    getData();
   }, []);
 
   return (
