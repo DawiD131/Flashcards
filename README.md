@@ -39,6 +39,7 @@ and `npm start` to start client app.
 ## Features
 
 - Word list where we can find list of words which are in specific lesson.
+- User authorization will be added in the future.
 
 ## Status
 
