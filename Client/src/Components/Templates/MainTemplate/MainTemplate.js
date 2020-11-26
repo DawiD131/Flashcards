@@ -61,6 +61,8 @@ const MainTemplate = ({ state, dispatch }) => {
           );
           return false;
         } else return true;
+      default:
+        return;
     }
   };
 

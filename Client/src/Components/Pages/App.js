@@ -1,5 +1,6 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import LoadingPage from "../Templates/LoadingPage";
 import MainTemplate from "../Templates/MainTemplate/MainTemplate";
 import WordList from "../Templates/WordList";
 import appReducer from "../../Reducers/appReducer";
@@ -14,7 +15,7 @@ const App = () => {
   };
 
   const [state, dispatch] = useReducer(appReducer, initialState);
-
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     async function getData(url) {
       await fetch(`${API_URL}lessons/get_lessons_with_words`)
@@ -26,6 +27,7 @@ const App = () => {
             type: "FETCH",
             data,
           });
+          setIsLoading(true);
         })
         .catch(function (error) {
           console.log("Request failed", error);
@@ -38,7 +40,11 @@ const App = () => {
     <Router basename={process.env.PUBLIC_URL}>
       <Switch>
         <Route exact path="/">
-          <MainTemplate state={state} dispatch={dispatch} />
+          {isLoading ? (
+            <MainTemplate state={state} dispatch={dispatch} />
+          ) : (
+            <LoadingPage />
+          )}
         </Route>
         <Route path="/WordList">
           <WordList state={state} dispatch={dispatch} />

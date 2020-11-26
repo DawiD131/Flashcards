@@ -54,6 +54,7 @@ const appReducer = (state, action) => {
             if (el.word === action.wordToDelete) {
               item.words.splice(index, 1);
             }
+            return el;
           });
           return item;
         } else {
@@ -76,6 +77,7 @@ const appReducer = (state, action) => {
             if (el.word === action.word) {
               el.isLearned = action.status;
             }
+            return el;
           });
           return item;
         } else {
