@@ -10,7 +10,7 @@ const StyledWrapper = styled.div`
   min-height: 240px;
   margin-top: 15px;
   background-color: #5c7699;
-  box-shadow: inset 0 0 5px #000000;
+  box-shadow: inset 0 0 5px red;
   @media all and (max-width: 750px) {
     margin-top: 60px;
   }

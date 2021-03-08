@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../Atoms/Button";
+import axios from "axios";
 
 const StyledBox = styled.div`
   min-height: 40px;
@@ -22,6 +23,22 @@ const StyledWrapper = styled.div`
 `;
 
 const ButtonBottomBar = ({ main, handleIsFormPanelVisibleClick, visible }) => {
+  const Logout = () => {
+    // console.log("asdas");
+    // fetch("http://localhost:9000/logout").then((res) => {
+    //   console.log(res);
+    // });
+    console.log("dsa");
+    axios
+      .get("http://localhost:9000/logout", { withCredentials: true })
+      .then(function (response) {
+        console.log("wylogowano");
+      })
+      .catch(function (error) {
+        console.log("błąd");
+      });
+  };
+
   return (
     <StyledBox>
       {main ? (
@@ -36,11 +53,22 @@ const ButtonBottomBar = ({ main, handleIsFormPanelVisibleClick, visible }) => {
               function={handleIsFormPanelVisibleClick}
               txt={visible ? "Ukryj panel" : "Pokaz panel"}
             />
+            <Link to="/">
+              <button
+                onClick={Logout}
+                // warning
+                // secondary
+                // renderAs="button"
+                // txt="Log Out"
+              >
+                logout
+              </button>
+            </Link>
           </StyledWrapper>
         </>
       ) : (
         <StyledWrapper>
-          <Link to="/">
+          <Link to="/MainTemplate">
             <Button warning secondary renderAs="button" txt="Main Board" />
           </Link>
         </StyledWrapper>

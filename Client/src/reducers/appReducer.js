@@ -2,7 +2,8 @@ const appReducer = (state, action) => {
   switch (action.type) {
     case "ADD_LESSON":
       return {
-        data: [...state.data, { lesson: action.lessonInputValue, words: [] }],
+        userId: state.userId,
+        data: action.data,
         lessonsSubjects: [...state.lessonsSubjects, action.lessonInputValue],
         words: state.words,
         currentLesson: state.currentLesson,
@@ -10,9 +11,8 @@ const appReducer = (state, action) => {
 
     case "DELETE_LESSON":
       return {
-        data: state.data.filter(
-          (item) => item.lesson !== action.lessonToDelete
-        ),
+        userId: state.userId,
+        data: action.data,
         words: state.data.filter(
           (item) => item.lesson !== action.lessonToDelete
         )[0].words,
@@ -24,6 +24,7 @@ const appReducer = (state, action) => {
 
     case "GET_LESSON":
       return {
+        userId: state.userId,
         words: action.words,
         currentLesson: action.currentLesson,
         lessonsSubjects: state.lessonsSubjects,
@@ -31,18 +32,9 @@ const appReducer = (state, action) => {
       };
 
     case "ADD_WORD":
-      state.data.map((item) => {
-        if (item.lesson === action.lesson) {
-          item.words.push(action.wordToAdd);
-          return item;
-        } else {
-          return item;
-        }
-      });
-
       return {
         words: [...state.words, action.wordToAdd],
-        data: state.data,
+        data: action.data,
         lessonsSubjects: state.lessonsSubjects,
         currentLesson: state.currentLesson,
       };
@@ -89,6 +81,7 @@ const appReducer = (state, action) => {
     case "FETCH":
       return {
         data: action.data,
+        userId: action.userId,
         words: action.data.length ? action.data[0].words : [],
         lessonsSubjects: action.data.map((item) => item.lesson),
         currentLesson: action.data.length ? action.data[0].lesson : "",

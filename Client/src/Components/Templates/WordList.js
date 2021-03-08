@@ -60,14 +60,24 @@ const WordList = ({ state, dispatch }) => {
   };
 
   const handleDeleteLessonClick = (itemToDelete) => {
-    fetch(`${API_URL}lessons/delete_lesson/${itemToDelete}`, {
+    fetch(`${API_URL}lessons/delete_lesson`, {
       method: "DELETE",
-    }).then((response) => response.json());
-
-    dispatch({
-      type: "DELETE_LESSON",
-      lessonToDelete: itemToDelete,
-    });
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: state.userId,
+        itemToDelete: itemToDelete,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        dispatch({
+          type: "DELETE_LESSON",
+          lessonToDelete: itemToDelete,
+          data: data,
+        });
+      });
   };
 
   return (

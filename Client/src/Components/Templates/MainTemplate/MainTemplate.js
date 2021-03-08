@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyledWrapper } from "./StyledTemplate";
+import axios from "axios";
+import LoadingPage from "../LoadingPage";
 import Header from "../../Atoms/Header";
 import Board from "../../Organisms/Board";
 import FormPanel from "../../Organisms/FormPanel";
@@ -15,6 +17,22 @@ const MainTemplate = ({ state, dispatch }) => {
   const [lessonSelectValue, setLessonSelectValue] = useState("");
   const [lessonInputValue, setLessonInputValue] = useState("");
   const [isFormPanelVisible, setIsFormPanelVisible] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    axios({
+      method: "GET",
+      withCredentials: true,
+      url: "http://localhost:9000/user",
+    }).then((res) => {
+      dispatch({
+        type: "FETCH",
+        data: res.data.data,
+        userId: res.data._id,
+      });
+      setIsLoading(false);
+    });
+  }, []);
 
   useEffect(() => {
     setLessonSelectValue(
@@ -68,12 +86,21 @@ const MainTemplate = ({ state, dispatch }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch(`${API_URL}words/get_words/${lessonSelectValue}`)
-      .then((response) => response.json())
+    fetch(`${API_URL}words/get_words`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: state.userId,
+        lesson: lessonSelectValue,
+      }),
+    })
+      .then((res) => res.json())
       .then((data) => {
         dispatch({
           type: "GET_LESSON",
-          words: data.words,
+          words: data,
           currentLesson: lessonSelectValue,
         });
       });
@@ -87,10 +114,19 @@ const MainTemplate = ({ state, dispatch }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ lesson: lessonInputValue }),
-      });
-
-      dispatch({ type: "ADD_LESSON", lessonInputValue: lessonInputValue });
+        body: JSON.stringify({
+          lesson: lessonInputValue,
+          userId: state.userId,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          dispatch({
+            type: "ADD_LESSON",
+            lessonInputValue: lessonInputValue,
+            data: data,
+          });
+        });
     }
 
     setLessonInputValue("");
@@ -105,22 +141,26 @@ const MainTemplate = ({ state, dispatch }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          userId: state.userId,
           lesson: lessonSelectValue,
           word: wordValue,
           translation: translationValue,
           isLearned: false,
         }),
-      });
-
-      dispatch({
-        type: "ADD_WORD",
-        lesson: lessonSelectValue,
-        wordToAdd: {
-          word: wordValue,
-          translation: translationValue,
-          isLearned: false,
-        },
-      });
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          dispatch({
+            type: "ADD_WORD",
+            userId: state.userId,
+            data: data,
+            wordToAdd: {
+              word: wordValue,
+              translation: translationValue,
+              isLearned: false,
+            },
+          });
+        });
     }
 
     setTranslationValue("");
@@ -133,42 +173,45 @@ const MainTemplate = ({ state, dispatch }) => {
   return (
     <>
       <GlobalStyle />
-
-      <StyledWrapper>
-        <Header txt="FLASHCARDS" />
-        <Board
-          dispatch={dispatch}
-          words={state.words}
-          lessonsSubjects={lessonsSubjects}
-          currentLessonValue={lessonSelectValue}
-        />
-        {isFormPanelVisible ? (
-          <FormPanel
-            currentLesson={state.currentLesson}
-            handleAddWordSubmit={handleAddWordSubmit}
-            wordValue={wordValue}
-            handleWordInput={handleWordInput}
-            translationValue={translationValue}
-            handleTranslationInput={handleTranslationInput}
-            isFormPanelVisible={isFormPanelVisible}
-            handleLessonInput={handleLessonInput}
-            handleLessonSelect={handleLessonSelect}
+      {isLoading ? (
+        <LoadingPage />
+      ) : (
+        <StyledWrapper>
+          <Header txt="FLASHCARDS" />
+          <Board
+            dispatch={dispatch}
+            words={state.words}
             lessonsSubjects={lessonsSubjects}
-            lessonSelectValue={lessonSelectValue}
-            handleSubmit={handleSubmit}
             currentLessonValue={lessonSelectValue}
-            lessonInputValue={lessonInputValue}
-            handleAddLessonSubmit={handleAddLessonSubmit}
           />
-        ) : null}
-        <ButtonBottomBar
-          main
-          handleIsFormPanelVisibleClick={handleIsFormPanelVisibleClick}
-          visible={isFormPanelVisible}
-          show={false}
-          lessonsSubjects={lessonsSubjects}
-        />
-      </StyledWrapper>
+          {isFormPanelVisible ? (
+            <FormPanel
+              currentLesson={state.currentLesson}
+              handleAddWordSubmit={handleAddWordSubmit}
+              wordValue={wordValue}
+              handleWordInput={handleWordInput}
+              translationValue={translationValue}
+              handleTranslationInput={handleTranslationInput}
+              isFormPanelVisible={isFormPanelVisible}
+              handleLessonInput={handleLessonInput}
+              handleLessonSelect={handleLessonSelect}
+              lessonsSubjects={lessonsSubjects}
+              lessonSelectValue={lessonSelectValue}
+              handleSubmit={handleSubmit}
+              currentLessonValue={lessonSelectValue}
+              lessonInputValue={lessonInputValue}
+              handleAddLessonSubmit={handleAddLessonSubmit}
+            />
+          ) : null}
+          <ButtonBottomBar
+            main
+            handleIsFormPanelVisibleClick={handleIsFormPanelVisibleClick}
+            visible={isFormPanelVisible}
+            show={false}
+            lessonsSubjects={lessonsSubjects}
+          />
+        </StyledWrapper>
+      )}
     </>
   );
 };
